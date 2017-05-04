@@ -22,16 +22,16 @@ var DescuentosDelMes = (url) => {
             var name = e.children[0].next.next.children[0].attribs.title;
             var img = 'http://yoytec.com/' + e.children[0].next.next.children[0].attribs.src;
             var url = e.children[0].next.next.children[0].parent.attribs.href;
-            var precioanterior = precio1[ii]
-            var precionuevo = precio2[ii]
+            var precioAnterior = precio1[ii]
+            var precioNuevo = precio2[ii]
             // console.log(name,img,url);
             var Descuento = {
               // id: ii,
               name,
               img,
               url,
-              precioanterior,
-              precionuevo
+              precioAnterior,
+              precioNuevo
             }
             DescuentosDelMes.push(Descuento);
             ii = ii + 1;
