@@ -7,7 +7,8 @@
     "body-parser": "^1.17.1",
     "cheerio": "^0.22.0",
     "express": "^4.15.2",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "waitjs": "^0.2.0"
   },
   "devDependencies": {},
   "scripts": {
