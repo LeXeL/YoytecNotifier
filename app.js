@@ -2,6 +2,8 @@ require('waitjs');
 require('./config/config.js');
 const moment = require('moment');
 const express = require('express');
+const http = require("http");
+
 
 const DescuentosCrawler = require('./crawlers/Descuentos');
 const NuevosCrawler = require('./crawlers/Nuevos');
@@ -17,6 +19,7 @@ app.get('/',(req,res)=>{
 });
 
 repeat('10m', () => {
+    setInterval(function() {http.get("http://vast-waters-28879.herokuapp.com");}, 300000);
   var now = moment()
   var formatted = now.format('YYYY-MM-DD HH:mm:ss')
   console.log('[' + formatted + '] Rescaning for new items!')
@@ -25,9 +28,8 @@ repeat('10m', () => {
     for (var i = 0; i < res.length; i++) {
       var descuento = new Descuento(res[i]);
       Descuento.checkifnew(descuento).then((doc) => {
-        console.log(doc);
         doc.save();
-                  console.log('Upload succesfully on Descuento: '+doc);
+        console.log('Upload succesfully on Descuento: '+doc);
       }).catch((e) => {
 
       });
