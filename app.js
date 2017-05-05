@@ -7,9 +7,9 @@ const {mongoose} = require('./db/mongoose');
 const {Descuento} = require('./models/Descuentos');
 const {Nuevo} = require('./models/Nuevos');
 
-repeat('10s', () => {
+repeat('10m', () => {
   var now = moment()
-  var formatted = now.format('YYYY-MM-DD HH:mm:ss Z')
+  var formatted = now.format('YYYY-MM-DD HH:mm:ss')
   console.log('[' + formatted + '] Rescaning for new items!')
   DescuentosCrawler.DescuentosDelMes('http://yoytec.com/index.php').then((res) => {
     // console.log(JSON.stringify(res,null,4));
