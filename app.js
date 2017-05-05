@@ -1,4 +1,5 @@
 require('waitjs');
+require('./config/config.js');
 const moment = require('moment');
 
 const DescuentosCrawler = require('./crawlers/Descuentos');
