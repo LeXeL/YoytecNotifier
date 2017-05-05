@@ -12,6 +12,10 @@ const {Nuevo} = require('./models/Nuevos');
 var app = express();
 const port = process.env.PORT;
 
+app.get('/',(req,res)=>{
+    res.send('App is running!');
+});
+
 repeat('10m', () => {
   var now = moment()
   var formatted = now.format('YYYY-MM-DD HH:mm:ss')
