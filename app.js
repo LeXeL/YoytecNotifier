@@ -1,12 +1,16 @@
 require('waitjs');
 require('./config/config.js');
 const moment = require('moment');
+const express = require('express');
 
 const DescuentosCrawler = require('./crawlers/Descuentos');
 const NuevosCrawler = require('./crawlers/Nuevos');
 const {mongoose} = require('./db/mongoose');
 const {Descuento} = require('./models/Descuentos');
 const {Nuevo} = require('./models/Nuevos');
+
+var app = express();
+const port = process.env.PORT;
 
 repeat('10m', () => {
   var now = moment()
@@ -39,4 +43,8 @@ repeat('10m', () => {
   }).catch((e) => {
     console.log(e);
   });
+});
+
+app.listen(port, () => {
+  console.log(`Started up at port ${port}`);
 });
