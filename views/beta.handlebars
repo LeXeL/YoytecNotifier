@@ -1,0 +1,28 @@
+<div class="container w-container">
+    <h1 class="logo">Yoytec Notifier</h1>
+    <div class="join-wrapper w-clearfix">
+        <div class="beta-line"></div>
+        <p class="join">Join Our Beta List</p>
+        <div class="beta-line"></div>
+    </div>
+    <div class="sign-up-form w-form">
+        {{#if form}}
+        <form class="w-clearfix" data-name="Signup Form" name="wf-form-signup-form" method="post" action="/newuser">
+            <input class="field w-input" data-name="Email" maxlength="256" name="email" placeholder="Your email address" required="required" type="email">
+            <input class="button w-button" data-wait="Please wait..." type="submit" value="Submit">
+        </form>
+        {{/if}}
+        {{#if exito}}
+            <div class="success-message">
+                <p>Thanks! You have been added to our beta list.&nbsp;</p>
+                <p class="spread-word">Help spread the word!</p>
+            </div>
+        {{/if}}
+        {{#if errors}}
+            <div class="error-message">
+                <p>{error}</p>
+            </div>
+        {{/if}}
+    </div>
+    <div>{{count}}</div>
+</div>
