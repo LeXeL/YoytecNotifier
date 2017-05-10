@@ -12,6 +12,18 @@ UsersSchema.statics.count = function() {
         return doc.length;
     })
 }
+
+UsersSchema.statics.createUser = function(newUser){
+  var User = this;
+  return User.findOne({email:newUser.email}).then((doc)=>{
+    if(doc){
+      return Promise.reject();
+    }else{
+      newUser.save();
+      return Promise.resolve(newUser);
+    }
+  });
+}
 var User = mongoose.model('User', UsersSchema);
 
 module.exports={User}

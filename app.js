@@ -37,12 +37,12 @@ app.get('/', (req, res) => {
 
 app.post('/newuser',(req, res)=>{
     var user = new User({email: req.body.email});
-    user.save().then((doc)=>{
+    User.createUser(user).then((doc)=>{
         // var formatted = now.format('YYYY-MM-DD HH:mm:ss')
-        console.log('Succesfully added the new user!/n'+doc);
+        console.log('[' + formatted + '] Succesfully added the new user!/n'+doc);
         res.render('beta',{exito:true})
     }).catch((e)=>{
-        res.render('beta',{errors:true})
+        res.render('beta',{errors:{error:'User already exists on the database'}})
     })
 });
 
