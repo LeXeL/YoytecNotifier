@@ -17,6 +17,7 @@ UsersSchema.statics.createUser = function(newUser){
   var User = this;
   return User.findOne({email:newUser.email}).then((doc)=>{
     if(doc){
+      console.log('This');
       return Promise.reject();
     }else{
       newUser.save();
