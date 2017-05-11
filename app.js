@@ -27,13 +27,6 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-let mailOptions = {
-    from: '"Fred Foo 👻" <lexelEZ@gmail.com>', // sender address
-    to: 'diego.r2892@gmail.com', // list of receivers
-    subject: 'Hello ✔', // Subject line
-    text: 'Hello world ?', // plain text body
-    html: '<b>Hello world ?</b>' // html body
-};
 // BodyParser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -65,36 +58,79 @@ app.post('/newuser',(req, res)=>{
     })
 });
 
+function enviarCorreo() {
+    var html = '';
+    var sePuedeEnviar = false;
+    var nuevoNoEnviados = [];
+    var descuentoNoEnviados = [];
 
-var nuevoNoEnviados;
-var descuentoNoEnviados;
-Nuevo.getNotSend().then((doc)=>{
-   nuevoNoEnviados= doc;
-  return Descuento.getNotSend();
-}).then((doc)=>{
-   descuentoNoEnviados= doc;
-  console.log(nuevoNoEnviados, descuentoNoEnviados);
-  Nuevo.find({enviado:false}, function(err, doc) {
-      if (err) throw err;
-      for (var i = 0; i < doc.length; i++) {
-        doc[i].enviado = true;
-        doc[i].save(function (error) {
-            if(err) throw err;
-        })
-      }
-  })
-  Descuento.find({enviado:false}, function(err, doc) {
-      if (err) throw err;
-      for (var i = 0; i < doc.length; i++) {
-        doc[i].enviado = true;
-        doc[i].save(function (error) {
-            if(err) throw err;
-        })
-      }
-  })
-}).catch((e)=>{
-  console.log(e);
-});
+    Nuevo.find({enviado:false},function (err, doc) {
+        if (err) throw err;
+        nuevoNoEnviados = doc;
+    });
+    Descuento.find({enviado:false},function (err,doc) {
+        if(err) throw err;
+        descuentoNoEnviados = doc;
+    });
+    console.log(nuevoNoEnviados);
+    if (descuentoNoEnviados.length > 1) {
+        html += '<b>Descuentos Nuevos en la pagina de Yoytec</b>';
+        for (var i = 0; i < descuentoNoEnviados.length; i++) {
+            html += descuentoNoEnviados[i];
+        }
+        sePuedeEnviar = true;
+        // Descuento.find({
+        //     enviado: false
+        // }, function(err, doc) {
+        //     if (err) throw err;
+        //     for (var i = 0; i < doc.length; i++) {
+        //         doc[i].enviado = true;
+        //         doc[i].save(function(error) {
+        //             if (err) throw err;
+        //         })
+        //     }
+        // })
+    }
+    if (nuevoNoEnviados) {
+        html += '<b> Nuevos productos en la pagina de Yoytec</b>';
+        for (var i = 0; i < nuevoNoEnviados.length; i++) {
+            html += nuevoNoEnviados[i]
+        }
+        sePuedeEnviar = true;
+        // Nuevo.find({
+        //     enviado: false
+        // }, function(err, doc) {
+        //     if (err) throw err;
+        //     for (var i = 0; i < doc.length; i++) {
+        //         doc[i].enviado = true;
+        //         doc[i].save(function(error) {
+        //             if (err) throw err;
+        //         })
+        //     }
+        // })
+    }
+    console.log('Se puede enviar? ' + sePuedeEnviar);
+    if (sePuedeEnviar) {
+        let mailOptions = {
+            from: '"Yoytec Notifier" <lexelEZ@gmail.com>', // sender address
+            to: 'diego.r2892@gmail.com', // list of receivers
+            subject: 'Yoytec Notifier New Activity', // Subject line
+            html: html // html body
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message %s sent: %s', info.messageId, info.response);
+        });
+    }
+
+}
+
+
+
+enviarCorreo();
+
 
 repeat('10s', () => {
     setInterval(function() {
@@ -105,17 +141,11 @@ repeat('10s', () => {
     var dia = moment().format('dddd');
     var hora = moment().format('HH');
     var minuto = moment().format('mm');
-
-    // console.log(parseInt(hora),parseInt(minuto,10));
-    // if (dia === 'Wednesday' || dia ==='Friday') {
-    //   if (parseInt(hora, 10) === 9 && parseInt(minuto,10) <= 20) {
-    //     transporter.sendMail(mailOptions, (error, info) => {
-    //       if (error) {
-    //         return console.log(error);
-    //       }
-    //       console.log('Message %s sent: %s', info.messageId, info.response);
-    //     });
-    //   }
+    // // console.log(parseInt(hora),parseInt(minuto,10));
+    // if (dia === 'Wednesday' || dia === 'Friday') {
+    //     if (parseInt(hora, 10) === 9 && parseInt(minuto, 10) <= 20) {
+    //         enviarCorreo();
+    //     }
     // }
     console.log('[' + formatted + '] Rescaning for new items!')
     DescuentosCrawler.DescuentosDelMes('http://yoytec.com/index.php').then((res) => {
@@ -133,7 +163,6 @@ repeat('10s', () => {
             for (var i = 0; i < res.length; i++) {
                 var nuevo = new Nuevo(res[i]);
                 Nuevo.checkifnew(nuevo).then((doc) => {
-                    console.log(doc);
                     doc.save();
                     console.log('Upload succesfully on Nuevo: ' + doc);
                 }).catch((e) => {
