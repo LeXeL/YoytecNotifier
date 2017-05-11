@@ -11,6 +11,7 @@
     "http": "0.0.0",
     "moment": "^2.18.1",
     "mongoose": "^4.9.7",
+    "nodemailer": "^4.0.1",
     "request": "^2.81.0",
     "waitjs": "^0.2.0"
   },

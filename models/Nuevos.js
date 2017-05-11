@@ -12,6 +12,10 @@ var NuevoSchema = new mongoose.Schema({
     },
     precio:{
         type: String
+    },
+    enviado:{
+      type: Boolean,
+      default: false
     }
 });
 
@@ -25,6 +29,18 @@ NuevoSchema.statics.checkifnew = function (nuevo) {
     }
   });
 }
+
+NuevoSchema.statics.getNotSend = function () {
+  var Nuevo = this;
+  return Nuevo.find({enviado:false}).then((doc)=>{
+    if (doc){
+      return Promise.resolve(doc);
+    }else{
+      return Promise.reject();
+    }
+  })
+}
+
 var Nuevo = mongoose.model('Nuevo', NuevoSchema);
 
 module.exports={Nuevo}

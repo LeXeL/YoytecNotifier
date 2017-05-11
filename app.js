@@ -6,6 +6,7 @@ const http = require("http");
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
 
 const DescuentosCrawler = require('./crawlers/Descuentos');
 const NuevosCrawler = require('./crawlers/Nuevos');
@@ -14,9 +15,25 @@ const {Descuento} = require('./models/Descuentos');
 const {Nuevo} = require('./models/Nuevos');
 const {User} = require('./models/Users');
 
+
 var app = express();
 const port = process.env.PORT;
 
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'lexelEZ@gmail.com',
+        pass: 'atletico123!'
+    }
+});
+
+let mailOptions = {
+    from: '"Fred Foo 👻" <lexelEZ@gmail.com>', // sender address
+    to: 'diego.r2892@gmail.com', // list of receivers
+    subject: 'Hello ✔', // Subject line
+    text: 'Hello world ?', // plain text body
+    html: '<b>Hello world ?</b>' // html body
+};
 // BodyParser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -48,12 +65,58 @@ app.post('/newuser',(req, res)=>{
     })
 });
 
-repeat('10m', () => {
+
+var nuevoNoEnviados;
+var descuentoNoEnviados;
+Nuevo.getNotSend().then((doc)=>{
+   nuevoNoEnviados= doc;
+  return Descuento.getNotSend();
+}).then((doc)=>{
+   descuentoNoEnviados= doc;
+  console.log(nuevoNoEnviados, descuentoNoEnviados);
+  Nuevo.find({enviado:false}, function(err, doc) {
+      if (err) throw err;
+      for (var i = 0; i < doc.length; i++) {
+        doc[i].enviado = true;
+        doc[i].save(function (error) {
+            if(err) throw err;
+        })
+      }
+  })
+  Descuento.find({enviado:false}, function(err, doc) {
+      if (err) throw err;
+      for (var i = 0; i < doc.length; i++) {
+        doc[i].enviado = true;
+        doc[i].save(function (error) {
+            if(err) throw err;
+        })
+      }
+  })
+}).catch((e)=>{
+  console.log(e);
+});
+
+repeat('10s', () => {
     setInterval(function() {
         http.get("http://vast-waters-28879.herokuapp.com");
     }, 300000);
     var now = moment()
     var formatted = now.format('YYYY-MM-DD HH:mm:ss')
+    var dia = moment().format('dddd');
+    var hora = moment().format('HH');
+    var minuto = moment().format('mm');
+
+    // console.log(parseInt(hora),parseInt(minuto,10));
+    // if (dia === 'Wednesday' || dia ==='Friday') {
+    //   if (parseInt(hora, 10) === 9 && parseInt(minuto,10) <= 20) {
+    //     transporter.sendMail(mailOptions, (error, info) => {
+    //       if (error) {
+    //         return console.log(error);
+    //       }
+    //       console.log('Message %s sent: %s', info.messageId, info.response);
+    //     });
+    //   }
+    // }
     console.log('[' + formatted + '] Rescaning for new items!')
     DescuentosCrawler.DescuentosDelMes('http://yoytec.com/index.php').then((res) => {
         // console.log(JSON.stringify(res,null,4));
