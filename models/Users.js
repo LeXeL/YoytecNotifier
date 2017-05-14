@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 var UsersSchema = new mongoose.Schema({
     email:{
         type: String
+    },
+    activo:{
+      type: Boolean,
+      default: true
     }
 });
 
