@@ -26,7 +26,7 @@ function StartWebcrawling() {
                 enviarCorreo();
             }
         }
-        enviarCorreo();
+        // enviarCorreo();
         console.log('[' + formatted + '] Rescaning for new items!')
         DescuentosCrawler.DescuentosDelMes('http://yoytec.com/index.php').then((res) => {
             for (var i = 0; i < res.length; i++) {
