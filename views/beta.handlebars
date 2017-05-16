@@ -1,29 +1,41 @@
-<div class="container w-container">
-    <h1 class="logo">Yoytec Notifier</h1>
-    <div class="join-wrapper w-clearfix">
-        <div class="beta-line"></div>
-        <p class="join">Join Our Beta List</p>
-        <div class="beta-line"></div>
-    </div>
-    <div class="sign-up-form w-form">
-        {{#if form}}
-        <form class="w-clearfix" data-name="Signup Form" name="wf-form-signup-form" method="post" action="/newuser">
-            <input class="field w-input" data-name="Email" maxlength="256" name="email" placeholder="Your email address" required="required" type="email">
-            <input class="button w-button" data-wait="Please wait..." type="submit" value="Submit">
-        </form>
+<div class="container">
+  <h1 class="logo">Yoytec Notifier</h1>
+  <div class="join-wrapper w-clearfix">
+    <div class="beta-line"></div>
+    <p class="join">Join Our Beta List</p>
+    <div class="beta-line"></div>
+  </div>
+  <div class="sign-up-form form">
+    {{#if form}}
+      <form class="clearfix" data-name="Signup Form" name="form-signup-form" method="post" action="/newuser">
+        <input class="field w-input" data-name="Email" maxlength="256" name="email" placeholder="Your email address" required="required" type="email">
+        <input class="button w-button" data-wait="Please wait..." type="submit" value="Submit">
+      </form>
 
-        {{/if}}
-        {{#if exito}}
-            <div class="success-message">
-                <p>Thanks! You have been added to our beta list.&nbsp;</p>
-                <p class="spread-word">Help spread the word!</p>
-            </div>
-        {{/if}}
-        {{#if errors}}
-            <div class="error-message">
-                <p>{{errors.error}}</p>
-            </div>
-        {{/if}}
+    {{/if}}
+    {{#if exito}}
+      <div class="success-message">
+        <p>Thanks! You have been added to our beta list.&nbsp;</p>
+        <p class="spread-word">Help spread the word!</p>
+      </div>
+    {{/if}}
+    {{#if errors}}
+      <div class="error-message">
+        <p>{{errors.error}}</p>
+      </div>
+    {{/if}}
+  </div>
+  <div>
+    <h4>{{{count}}}</h4></div>
+  <div class="panel panel-success">
+    <div class="panel-heading">Nuevas noticias</div>
+    <div class="panel-body" style="height: 200px;overflow-y: scroll;">
+      <!-- List group -->
+      <ul class="list-group">
+        {{#each Noticias}}
+        <li class="list-group-item items">{{this}}</li>
+        {{/each}}
+      </ul>
     </div>
-    <div><h4>{{{count}}}</h4></div>
+  </div>
 </div>
