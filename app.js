@@ -1,5 +1,5 @@
 require('waitjs');
-require('./config/config.js');
+const config = require('./config/config.js');
 const moment = require('moment');
 const express = require('express');
 const http = require("http");
@@ -19,16 +19,7 @@ const {User} = require('./models/Users');
 
 var app = express();
 const port = process.env.PORT;
-
-let transporter = nodemailer.createTransport({
-    host:"a2plcpnl0136.prod.iad2.secureserver.net",
-    port:465,
-    secure:true,
-    auth: {
-        user: 'yn@bballoon.net',
-        pass: 'Atletico123!'
-    }
-});
+const transporter = config.transporter;
 
 // BodyParser Middleware
 app.use(bodyParser.json());
