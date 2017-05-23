@@ -21,7 +21,7 @@ function StartWebcrawling() {
         var day = moment().format('dddd');
         var hour = moment().format('HH');
         var minute = moment().format('mm');
-        if (day === 'Wednesday' || day === 'Friday') {
+        if (day === 'Tuesday' || day === 'Friday') {
             if (parseInt(hour, 10) === 9 && parseInt(minute, 10) <= 20) {
                 sendEmail();
             }
