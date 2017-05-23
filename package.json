@@ -7,6 +7,7 @@
     "async": "^2.4.0",
     "body-parser": "^1.17.1",
     "cheerio": "^0.22.0",
+    "dotenv": "^4.0.0",
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
     "http": "0.0.0",
@@ -16,7 +17,10 @@
     "request": "^2.81.0",
     "waitjs": "^0.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.1"
+  },
   "scripts": {
     "start": "node app.js"
   },

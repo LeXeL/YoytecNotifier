@@ -7,7 +7,7 @@
   </div>
   <div class="sign-up-form form">
     {{#if form}}
-      <form class="clearfix" data-name="Signup Form" name="form-signup-form" method="post" action="/newuser">
+      <form class="clearfix" data-name="Signup Form" name="form-signup-form" method="post" action="/user">
         <input class="field w-input" data-name="Email" maxlength="256" name="email" placeholder="Your email address" required="required" type="email">
         <input class="button w-button" data-wait="Please wait..." type="submit" value="Submit">
       </form>
@@ -27,15 +27,14 @@
   </div>
   <div>
     <h4>{{{count}}}</h4></div>
-  <div class="panel panel-success">
+  <!-- <div class="panel panel-success">
     <div class="panel-heading">Nuevas noticias</div>
     <div class="panel-body" style="height: 200px;overflow-y: scroll;">
-      <!-- List group -->
       <ul class="list-group">
         {{#each Noticias}}
         <li class="list-group-item items">{{this}}</li>
         {{/each}}
       </ul>
     </div>
-  </div>
+  </div> -->
 </div>

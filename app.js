@@ -10,12 +10,10 @@ const routes = require('./routes');
 var app = express();
 const port = process.env.PORT;
 
-//Set router
-app.use('/',routes);
-
 // BodyParser Middleware
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -26,6 +24,9 @@ app.set('view engine', 'handlebars');
 
 // Set Static Folder
 app.use(express.static(__dirname + '/public'));
+
+//Set router
+app.use('/',routes);
 
 //Start
 StartWebcrawling();

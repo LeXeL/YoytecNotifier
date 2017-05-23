@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 const exphbs = require('express-handlebars');
 
 const {mongoose} = require('../db/mongoose');
@@ -10,7 +11,7 @@ const {User} = require('../models/Users');
 
 router.get('/', (req, res) => {
     User.find({}).then((doc)=>{
-      var text = `There are ${doc.length} people using this tool`
+      var text = `There are ${doc.length} people using this tool`;
       res.render('beta',{
         form:true,
         count:text,
@@ -20,7 +21,6 @@ router.get('/', (req, res) => {
         ]
       });
     })
-
 });
 router.get('/removeuser/:email',(req,res)=>{
     var email = req.params.email;
@@ -36,7 +36,7 @@ router.get('/removeuser/:email',(req,res)=>{
       console.log(e);
     })
 });
-router.post('/newuser',(req, res)=>{
+router.post('/user',(req, res)=>{
     var user = new User({email: req.body.email});
     User.createUser(user).then((doc)=>{
         var now = moment()
