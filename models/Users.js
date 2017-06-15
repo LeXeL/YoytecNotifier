@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 var UsersSchema = new mongoose.Schema({
     email:{
@@ -8,27 +8,27 @@ var UsersSchema = new mongoose.Schema({
       type: Boolean,
       default: true
     }
-});
+})
 
 UsersSchema.statics.count = function() {
-    var User = this;
+    var User = this
     User.find({}).then((doc)=>{
-        return doc.length;
+        return doc.length
     })
 }
 
 UsersSchema.statics.createUser = function(newUser){
-  var User = this;
+  var User = this
   return User.findOne({email:newUser.email}).then((doc)=>{
     if(doc){
-      console.log('This');
-      return Promise.reject();
+      console.log('This')
+      return Promise.reject()
     }else{
-      newUser.save();
-      return Promise.resolve(newUser);
+      newUser.save()
+      return Promise.resolve(newUser)
     }
-  });
+  })
 }
-var User = mongoose.model('User', UsersSchema);
+var User = mongoose.model('User', UsersSchema)
 
 module.exports={User}
