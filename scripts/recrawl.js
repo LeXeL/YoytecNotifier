@@ -29,17 +29,17 @@ function StartWebcrawling() {
         }
         sendEmail()
         console.log('[' + formatted + '] Rescaning for new items!')
-        DiscountCrawler.GetDiscounts('http://yoytec.com/index.php').then((res) => {
-            for (var i = 0; i < res.length; i++) {
-                var discount = new Discount(res[i])
-                Discount.checkifnew(discount).then((doc) => {
-                    doc.save()
-                    console.log('Upload succesfully on Discount: ' + doc)
-                }).catch((e) => {
-
-                })
-            }
-            return NewsCrawler.GetNews('http://yoytec.com/index.php').then((res) => {
+        // DiscountCrawler.GetDiscounts('http://yoytec.com/index.php').then((res) => {
+        //     for (var i = 0; i < res.length; i++) {
+        //         var discount = new Discount(res[i])
+        //         Discount.checkifnew(discount).then((doc) => {
+        //             doc.save()
+        //             console.log('Upload succesfully on Discount: ' + doc)
+        //         }).catch((e) => {
+        //
+        //         })
+        //     }
+        NewsCrawler.GetNews('https://www.yoytec.com/products_new.php').then((res) => {
                 for (var i = 0; i < res.length; i++) {
                     var newItem = new NewItems(res[i])
                     NewItems.checkifnew(newItem).then((doc) => {
@@ -49,8 +49,7 @@ function StartWebcrawling() {
 
                     })
                 }
-            })
-        }).catch((e) => {
+            }).catch((e) => {
             console.log(e)
         })
     })
