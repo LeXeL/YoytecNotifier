@@ -16,7 +16,6 @@ var GetNews = (link)=> {
         var name = e.children[1].children[1].children[0].children[0].attribs.title
         var price = e.children[1].children[7].children[5].children[1].children[1].children[1].children[0].data
         var news = {
-            
               name,
               img,
               url,

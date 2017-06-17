@@ -18,18 +18,13 @@ const transporter = nodemailer.createTransport({
 })
 
 function sendEmail() {
-	console.log('Entra');
 	let html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Demystifying Email Design</title><meta name="viewport" content="width=device-width, initial-scale=1.0" /></head><body style="margin: 0; padding: 0;"><table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: 1px solid #cccccc;"><tr><td align="center" bgcolor="#6ec3e0" style="padding: 40px 0 30px 0;"><img src="http://bballoon.net/img/banner.jpg" alt="Creating Email Magic" width="300" height="120" style="display: block;" /></td></tr><tr><td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;"><table border="0" cellpadding="0" cellspacing="0" width="100%">'
 	let canSend = false
 	let newNotSend
 	let discountNotSend
-	NewItems.find({
-		send: false
-	}).then((doc) => {
+	NewItems.find({send: false}).then((doc) => {
 		newNotSend = doc
-		return Discount.find({
-			send: false
-		});
+		return Discount.find({send: false});
 	}).then((doc) => {
 		discountNotSend = doc
 		if (discountNotSend.length >= 1) {
@@ -72,31 +67,31 @@ function sendEmail() {
 							from: '"Yoytec Notifier" <yn@bballoon.net>',
 							to: doc[i].email,
 							subject: 'Yoytec Notifier New Activity',
-							html: html+`</table></td></tr><tr><td bgcolor="#ee4c50" style="padding: 30px 30px 30px 30px"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="color: #ffffff font-family: Arial, sans-serif font-size: 14px;">&reg; Blue Balloon 2017<br/><a href="http://yn.bballoon.net/removeuser/${doc[i].email}" style="color: #ffffff;"><font color="#ffffff">Unsubscribe</font></a> to this newsletter instantly</td><td align="right"><table border="0" cellpadding="0" cellspacing="0"><tr><td><a href="https://www.facebook.com/lexel.pty"><img src="http://bballoon.net/img/tw.png" alt="Twitter" width="38" height="38" style="display: block;" border="0" /></a></td><td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td><td><a href="http://www.twitter.com/lexel_"><img src="http://bballoon.net/img/fb.png" alt="Facebook" width="38" height="38" style="display: block;" border="0" /></a></td></tr></table></td></tr></table></td></tr></table></td></tr></table></body></html>`
+							html: html+`</table></td></tr><tr><td bgcolor="#ee4c50" style="padding: 30px 30px 30px 30px;"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">&reg; Blue Balloon 2017<br/><a href="http://yn.bballoon.net/removeuser/${doc[i].email}" style="color: #ffffff;"><font color="#ffffff">Unsubscribe</font></a> to this newsletter instantly</td><td align="right"><table border="0" cellpadding="0" cellspacing="0"><tr><td><a href="https://www.facebook.com/lexel.pty"><img src="http://bballoon.net/img/tw.png" alt="Twitter" width="38" height="38" style="display: block;" border="0" /></a></td><td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td><td><a href="http://www.twitter.com/lexel_"><img src="http://bballoon.net/img/fb.png" alt="Facebook" width="38" height="38" style="display: block;" border="0" /></a></td></tr></table></td></tr></table></td></tr></table></td></tr></table></body></html>`
 						}
 						transporter.sendMail(mailOptions, (error, info) => {
 							if (error) return console.log(error)
 							console.log('Message %s sent: %s', info.messageId, info.response);
 						});
 					}
-					NewItems.find({send: false}, function(err, doc) {
-						if (err) throw err
-						for (var i = 0; i < doc.length; i++) {
-							doc[i].send = true
-							doc[i].save(function(error) {
-								if (err) throw err
-							})
-						}
-					});
-					Discount.find({send: false}, function(err, doc) {
-						if (err) throw err
-						for (var i = 0; i < doc.length; i++) {
-							doc[i].send = true
-							doc[i].save(function(error) {
-								if (err) throw err
-							})
-						}
-					});
+					// NewItems.find({send: false}, function(err, doc) {
+					// 	if (err) throw err
+					// 	for (var i = 0; i < doc.length; i++) {
+					// 		doc[i].send = true
+					// 		doc[i].save(function(error) {
+					// 			if (err) throw err
+					// 		})
+					// 	}
+					// });
+					// Discount.find({send: false}, function(err, doc) {
+					// 	if (err) throw err
+					// 	for (var i = 0; i < doc.length; i++) {
+					// 		doc[i].send = true
+					// 		doc[i].save(function(error) {
+					// 			if (err) throw err
+					// 		})
+					// 	}
+					// });
 				}
 			});
 		}
