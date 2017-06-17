@@ -27,6 +27,7 @@ function StartWebcrawling() {
                 sendEmail()
             }
         }
+        sendEmail()
         console.log('[' + formatted + '] Rescaning for new items!')
         // DiscountCrawler.GetDiscounts('http://yoytec.com/index.php').then((res) => {
         //     for (var i = 0; i < res.length; i++) {
