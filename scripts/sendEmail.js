@@ -58,9 +58,7 @@ function sendEmail() {
 			canSend = true;
 		}
 		if (canSend) {
-			User.find({
-				activo: true
-			}).then((doc) => {
+			User.find({activo: true}).then((doc) => {
 				if (doc) {
 					for (var i = 0; i < doc.length; i++) {
 						let mailOptions = {
@@ -74,24 +72,24 @@ function sendEmail() {
 							console.log('Message %s sent: %s', info.messageId, info.response);
 						});
 					}
-					// NewItems.find({send: false}, function(err, doc) {
-					// 	if (err) throw err
-					// 	for (var i = 0; i < doc.length; i++) {
-					// 		doc[i].send = true
-					// 		doc[i].save(function(error) {
-					// 			if (err) throw err
-					// 		})
-					// 	}
-					// });
-					// Discount.find({send: false}, function(err, doc) {
-					// 	if (err) throw err
-					// 	for (var i = 0; i < doc.length; i++) {
-					// 		doc[i].send = true
-					// 		doc[i].save(function(error) {
-					// 			if (err) throw err
-					// 		})
-					// 	}
-					// });
+					NewItems.find({send: false}, function(err, doc) {
+						if (err) throw err
+						for (var i = 0; i < doc.length; i++) {
+							doc[i].send = true
+							doc[i].save(function(error) {
+								if (err) throw err
+							})
+						}
+					});
+					Discount.find({send: false}, function(err, doc) {
+						if (err) throw err
+						for (var i = 0; i < doc.length; i++) {
+							doc[i].send = true
+							doc[i].save(function(error) {
+								if (err) throw err
+							})
+						}
+					});
 				}
 			});
 		}
