@@ -22,13 +22,9 @@ function sendEmail() {
 	let canSend = false
 	let newNotSend
 	let discountNotSend
-	NewItems.find({
-		send: false
-	}).then((doc) => {
+	NewItems.find({send: false}).then((doc) => {
 		newNotSend = doc
-		return Discount.find({
-			send: false
-		});
+		return Discount.find({send: false})
 	}).then((doc) => {
 		discountNotSend = doc
 		if (discountNotSend.length >= 1) {
@@ -62,16 +58,14 @@ function sendEmail() {
 			canSend = true;
 		}
 		if (canSend) {
-			User.find({
-				activo: true
-			}).then((doc) => {
+			User.find({activo: true}).then((doc) => {
 				if (doc) {
 					for (var i = 0; i < doc.length; i++) {
 						let mailOptions = {
 							from: '"Yoytec Notifier" <yn@bballoon.net>',
-							to: doc[i].email, 
-							subject: 'Yoytec Notifier New Activity', 
-							html: html+`</table></td></tr><tr><td bgcolor="#ee4c50" style="padding: 30px 30px 30px 30px"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="color: #ffffff font-family: Arial, sans-serif font-size: 14px;">&reg; Blue Balloon 2017<br/><a href="http://yn.bballoon.net/removeuser/${doc[i].email}" style="color: #ffffff;"><font color="#ffffff">Unsubscribe</font></a> to this newsletter instantly</td><td align="right"><table border="0" cellpadding="0" cellspacing="0"><tr><td><a href="https://www.facebook.com/lexel.pty"><img src="http://bballoon.net/img/tw.png" alt="Twitter" width="38" height="38" style="display: block;" border="0" /></a></td><td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td><td><a href="http://www.twitter.com/lexel_"><img src="http://bballoon.net/img/fb.png" alt="Facebook" width="38" height="38" style="display: block;" border="0" /></a></td></tr></table></td></tr></table></td></tr></table></td></tr></table></body></html>`
+							to: doc[i].email,
+							subject: 'Yoytec Notifier New Activity',
+							html: html+`</table></td></tr><tr><td bgcolor="#ee4c50" style="padding: 30px 30px 30px 30px;"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">&reg; Blue Balloon 2017<br/><a href="http://yn.bballoon.net/removeuser/${doc[i].email}" style="color: #ffffff;"><font color="#ffffff">Unsubscribe</font></a> to this newsletter instantly</td><td align="right"><table border="0" cellpadding="0" cellspacing="0"><tr><td><a href="https://www.facebook.com/lexel.pty"><img src="http://bballoon.net/img/tw.png" alt="Twitter" width="38" height="38" style="display: block;" border="0" /></a></td><td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td><td><a href="http://www.twitter.com/lexel_"><img src="http://bballoon.net/img/fb.png" alt="Facebook" width="38" height="38" style="display: block;" border="0" /></a></td></tr></table></td></tr></table></td></tr></table></td></tr></table></body></html>`
 						}
 						transporter.sendMail(mailOptions, (error, info) => {
 							if (error) return console.log(error)
