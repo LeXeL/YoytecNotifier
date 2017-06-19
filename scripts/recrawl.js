@@ -2,7 +2,7 @@ require('waitjs')
 require('dotenv').config()
 const config = require('../config/config')
 const moment = require('moment')
-const http = require("http")
+const request = require('request')
 
 const DiscountCrawler = require('../crawlers/Discounts')
 const NewsCrawler = require('../crawlers/News')
@@ -14,9 +14,7 @@ const {User} = require('../models/Users')
 
 function StartWebcrawling() {
     repeat(process.env.WAIT_TIME, () => {
-        setInterval(function() {
-            http.get("http://vast-waters-28879.herokuapp.com") //TENGO Que cambiarlo a request
-        }, 300000)
+        request('http://yn.bballoon.net',(e,res)=>{if(e) console.log(e)})
         var now = moment()
         var formatted = now.format('YYYY-MM-DD HH:mm:ss')
         var day = moment().format('dddd')
@@ -39,19 +37,20 @@ function StartWebcrawling() {
 
                 })
             }
-        // NewsCrawler.GetNews('https://www.yoytec.com/products_new.php').then((res) => {
-        //         for (var i = 0; i < res.length; i++) {
-        //             var newItem = new NewItems(res[i])
-        //             NewItems.checkifnew(newItem).then((doc) => {
-        //                 doc.save()
-        //                 console.log('Upload succesfully on New: ' + doc)
-        //             }).catch((e) => {
-        //
-        //             })
-        //         }
+            return NewsCrawler.GetNews('https://www.yoytec.com/products_new.php').then((res) => {
+                for (var i = 0; i < res.length; i++) {
+                    var newItem = new NewItems(res[i])
+                    NewItems.checkifnew(newItem).then((doc) => {
+                        doc.save()
+                        console.log('Upload succesfully on New: ' + doc)
+                    }).catch((e) => {
+
+                    })
+                }
             }).catch((e) => {
             console.log(e)
         })
+      })
     })
 }
 

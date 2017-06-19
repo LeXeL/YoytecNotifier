@@ -24,7 +24,7 @@ function sendEmail() {
 	let discountNotSend
 	NewItems.find({send: false}).then((doc) => {
 		newNotSend = doc
-		return Discount.find({send: false});
+		return Discount.find({send: false})
 	}).then((doc) => {
 		discountNotSend = doc
 		if (discountNotSend.length >= 1) {
