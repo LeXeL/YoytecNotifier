@@ -14,7 +14,15 @@ var GetNews = (link)=> {
         var url = e.children[1].children[1].children[0].attribs.href
         var img ='https://yoytec.com/'+e.children[1].children[1].children[0].children[0].attribs.src
         var name = e.children[1].children[1].children[0].children[0].attribs.title
-        var price = e.children[1].children[7].children[5].children[1].children[1].children[1].children[0].data
+        if (e.children[1].children[7].type === "text"){
+            var price = e.children[1].children[8].children[5].children[1].children[1].children[1].children[0].data
+        }else{
+          if(e.children[1].children[7].attribs.class === 'manufacturer_logo'){
+            var price = e.children[1].children[9].children[5].children[1].children[1].children[1].children[0].data
+          }else{
+            var price = e.children[1].children[7].children[5].children[1].children[1].children[1].children[0].data
+          }
+        }
         var news = {
               name,
               img,
